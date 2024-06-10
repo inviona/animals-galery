@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Homepage = () => {
   const [birdsData, setBirdsData] = useState([]);
@@ -70,7 +70,7 @@ const Homepage = () => {
 
   return (
      
-    <div className='justify-center'>
+    <div className='ml-16'>
     
     <div className="flex justify-center p-4">
         <input
@@ -105,13 +105,14 @@ const Homepage = () => {
             </div>
           ))}
         </div>
+
         <div className='flex flex-wrap gap-6 p-5'>
           {filteredDogs.map(dog => (
             <div key={dog.id} className='w-40'>
               <img src={dog.image} className='h-40 object-cover rounded-xl' alt={dog.name} />
               <div className='p-2'>
                 <h2 className='font-bold text-lg'>{dog.name}</h2>
-                <p className='text-sm text-gray-600'>{dog.species}</p>
+                <p className='text-sm text-gray-600'>{dog.origin}</p>
               </div>
               <div className='m-2'>
                 <a role='button' href="/" className='text-white bg-[#006769] px-3 py-1 rounded-md'>Learn More</a>
@@ -119,13 +120,14 @@ const Homepage = () => {
             </div>
           ))}
         </div>
+
         <div className='flex flex-wrap gap-6 p-5'>
           {filteredCats.map(cat => (
             <div key={cat.id} className='w-40'>
               <img src={cat.image} className='h-40 object-cover rounded-xl' alt={cat.name} />
               <div className='p-2'>
                 <h2 className='font-bold text-lg'>{cat.name}</h2>
-                <p className='text-sm text-gray-600'>{cat.species}</p>
+                <p className='text-sm text-gray-600'>{cat.origin}</p>
               </div>
               <div className='m-2'>
                 <a role='button' href="/" className='text-white bg-[#006769] px-3 py-1 rounded-md'>Learn More</a>
