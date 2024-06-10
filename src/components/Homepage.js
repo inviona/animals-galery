@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-
+import AnimalPopover from './AnimalPopover';
 const Homepage = () => {
   const [birdsData, setBirdsData] = useState([]);
   const [dogsData, setDogsData] = useState([]);
   const [catsData, setCatsData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   useEffect(() => {
     const fetchBirds = async () => {
@@ -67,6 +69,16 @@ const Homepage = () => {
   const filteredCats = catsData.filter((cat) =>
     cat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const openPopover = (animal) => {
+    setSelectedAnimal(animal);
+    setIsPopoverOpen(true);
+  };
+
+  const closePopover = () => {
+    setSelectedAnimal(null);
+    setIsPopoverOpen(false);
+  };
+//  console.log(openPopover);
 
   return (
      
@@ -91,16 +103,18 @@ const Homepage = () => {
      
 
       <div>
-        <div className='flex flex-wrap gap-6 p-2'>
+        <div className='flex flex-wrap gap-6 p-2 '>
           {filteredBirds.map(bird => (
-            <div key={bird.id} className='w-40'>
+            <div key={bird.id} className='w-60 flex flex-col justify-center bg-slate-100 p-3 rounded-xl'>
               <img src={bird.image} className='h-40 object-cover rounded-xl' alt={bird.name} />
               <div className='p-2'>
                 <h2 className='font-bold text-lg'>{bird.name}</h2>
                 <p className='text-sm text-gray-600'>{bird.species}</p>
               </div>
               <div className='m-2'>
-                <a role='button' href="/" className='text-white bg-[#006769] px-3 py-1 rounded-md'>Learn More</a>
+                <button
+                onClick={() => openPopover(bird)}
+                className='bg-blue-200 text-blue-900 px-3 py-1 rounded-md'>Learn More</button>
               </div>
             </div>
           ))}
@@ -108,14 +122,16 @@ const Homepage = () => {
 
         <div className='flex flex-wrap gap-6 p-5'>
           {filteredDogs.map(dog => (
-            <div key={dog.id} className='w-40'>
+            <div key={dog.id} className='w-60 flex flex-col justify-center bg-slate-100 p-3 rounded-xl' >
               <img src={dog.image} className='h-40 object-cover rounded-xl' alt={dog.name} />
               <div className='p-2'>
                 <h2 className='font-bold text-lg'>{dog.name}</h2>
                 <p className='text-sm text-gray-600'>{dog.origin}</p>
               </div>
               <div className='m-2'>
-                <a role='button' href="/" className='text-white bg-[#006769] px-3 py-1 rounded-md'>Learn More</a>
+                <button 
+                onClick={() => openPopover(dog)}
+                className='bg-blue-200 text-blue-900 px-3 py-1 rounded-md'>Learn More</button>
               </div>
             </div>
           ))}
@@ -123,19 +139,28 @@ const Homepage = () => {
 
         <div className='flex flex-wrap gap-6 p-5'>
           {filteredCats.map(cat => (
-            <div key={cat.id} className='w-40'>
+            <div key={cat.id} className='w-60 flex flex-col justify-center bg-slate-100 p-3 rounded-xl'>
               <img src={cat.image} className='h-40 object-cover rounded-xl' alt={cat.name} />
               <div className='p-2'>
                 <h2 className='font-bold text-lg'>{cat.name}</h2>
                 <p className='text-sm text-gray-600'>{cat.origin}</p>
               </div>
               <div className='m-2'>
-                <a role='button' href="/" className='text-white bg-[#006769] px-3 py-1 rounded-md'>Learn More</a>
+                <button 
+                onClick={() => openPopover(cat)}
+                className='bg-blue-200 text-blue-900 px-3 py-1 rounded-md'>Learn More</button>
               </div>
             </div>
           ))}
         </div>
       </div>
+      {selectedAnimal && (
+        <AnimalPopover
+          isOpen={isPopoverOpen}
+          closeModal={closePopover}
+          animal={selectedAnimal}
+        />
+      )}
     </div>
   );
 }
